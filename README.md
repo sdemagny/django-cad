@@ -1,0 +1,4 @@
+django-cad
+==========
+
+Cadastre management
