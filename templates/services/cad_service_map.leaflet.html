@@ -1,0 +1,29 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row-fluid" id="frt-map"></div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<link rel="stylesheet" href="/static/css/l.css">
+<link rel="stylesheet" href="/static/leaflet-plugins/css/distance.css" />
+<link rel="stylesheet" href="/static/css/leaflet-control-bing-geocoder.css" />
+<script src="/static/js/ios/l.cad.map.js"></script>
+<script src="/static/leaflet-plugins/layer/tile/Bing.js"></script>
+<script src="/static/leaflet-plugins/layer/OpenStreetBugs.js"></script>
+<script src="/static/leaflet-plugins/layer/vector/GPX.js"></script>
+<script src="/static/leaflet-plugins/control/Scale.js"></script>
+<script src="/static/leaflet-plugins/control/Permalink.js"></script>
+<script src="/static/leaflet-plugins/control/Permalink.Line.js"></script>
+<script src="/static/leaflet-plugins/control/Distance.js"></script>
+<script src="/static/leaflet-zoomfs/leaflet.zoomfs.js"></script>
+<script src="/static/leaflet-control-bing-geocoder/Control.BingGeocoder.js"></script>
+<script>
+    IOS.l.cad.map.init({
+        'cloudmade_api_key': '{{ CLOUDMADE_API_KEY }}',
+        'bing_api_key': '{{ BING_API_KEY }}'
+    });
+</script>
+{% endblock %}
