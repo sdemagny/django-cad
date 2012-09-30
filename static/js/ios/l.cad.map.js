@@ -39,15 +39,16 @@ IOS.l.cad.map = (function () {
         bing = new L.BingLayer(config.bing_api_key, {});
 
 
-        lieudits = IOS.l.cad.map.lieudits.get();
+        lieudits = IOS.l.edigeo.map.lieudits.get();
         parcels = IOS.l.cad.map.parcels.get();
 
-        map.addControl(new L.Control.Layers({"Bing": bing, 'Cloudmade': cloudmade, "OSM": osm, "Mapbox": mapbox}, {"Parcelles cadastrales": parcels, "Lieudit": lieudits}, {}));
+        map.addControl(new L.Control.Layers({"Bing": bing, 'Cloudmade': cloudmade, "OSM": osm, "Mapbox": mapbox}, {"Propriétés": parcels, "Lieudit": lieudits}, {}));
         d = new L.Control.Distance();
         map.addControl(d);
         map.addControl(new L.Control.Permalink({useLocation: true}));
         map.addControl(new L.Control.Scale());
         map.addControl(new L.Control.ZoomFS());
+
         geocoder = new L.Control.BingGeocoder(config.bing_api_key);
         map.addControl(geocoder);
     }
@@ -58,45 +59,32 @@ IOS.l.cad.map = (function () {
 }());
 
 
-IOS.ns('l.cad.map.parcels');
-
-
 IOS.l.cad.map.parcels = (function () {
     'use strict';
-    var tiles = function tiles() {
-        var parcels = L.geoJson();
-        $.getJSON('/layers/cad/prc', function (data) {
-            $.each(data.features, function (index, element) {
-                parcels.addData(element);
+    var config = {
+            url: '/layers/cad/parcels',
+            property: 'code_edigeo'
+        },
+        geojson = function geojson() {
+            var layer = L.geoJson('', {
+                    onEachFeature: function onEachFeature(feature, layer) {
+                        if (feature.properties && feature.properties[config.property]) {
+                            layer.bindPopup(feature.properties[config.property]);
+                        }
+                    },
+                    attribution: '@todo'
+                }),
+                legend;
+            $.getJSON(config.url, function (data) {
+                $.each(data.features, function (index, element) {
+                    layer.addData(element);
+                });
             });
-        });
 
-        return parcels;
-    };
+            return layer;
+        };
 
     return {
-        get: tiles
-    };
-}());
-
-IOS.ns('l.cad.map.lieudits');
-
-
-IOS.l.cad.map.lieudits = (function () {
-    'use strict';
-    var tiles = function tiles() {
-        var lieudits = L.geoJson();
-        $.getJSON('/layers/edigeo/lieudit', function (data) {
-            var index;
-            $.each(data.features, function (index, element) {
-                lieudits.addData(element);
-            });
-        });
-
-        return lieudits;
-    };
-
-    return {
-        get: tiles
+        get: geojson
     };
 }());

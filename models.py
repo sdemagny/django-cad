@@ -79,7 +79,7 @@ class CadLieudit(models.Model):
         return u'%s %s' % (self.section, self.name)
 
 
-class CadPrc(models.Model):
+class Parcel(models.Model):
     # @todo See null and blank
     lieudit = models.ForeignKey(CadLieudit)
     num_plan = models.IntegerField(null=True, blank=True)
@@ -98,10 +98,9 @@ class CadPrc(models.Model):
     class Meta:
         db_table = u'cad_prc'
         app_label = "cadastre"
-        verbose_name = "plot"
 
 
-class CadPrj(models.Model):
+class Owner(models.Model):
     name = models.CharField(max_length=50, blank=True)
     # @todo See max_length in database
     address = models.CharField(max_length=255, blank=True)
@@ -113,15 +112,14 @@ class CadPrj(models.Model):
     class Meta:
         db_table = u'cad_prj'
         app_label = "cadastre"
-        verbose_name = "legal ownership"
 
     def __unicode__(self):
         return u'%s' % (self.name)
 
 
-class CadPrjPrc(models.Model):
-    prc = models.ForeignKey(CadPrc)
-    prj = models.ForeignKey(CadPrj)
+class ParcelOwner(models.Model):
+    prc = models.ForeignKey(Parcel)
+    prj = models.ForeignKey(Owner)
     year = models.CharField(max_length=4, blank=True)
     activated = models.BooleanField()
     comments = models.CharField(max_length=255, blank=True)
@@ -136,7 +134,7 @@ class CadPrjPrc(models.Model):
 
 
 class CadPrjUser(models.Model):
-    prj = models.ForeignKey(CadPrj)
+    prj = models.ForeignKey(Owner)
     user = models.ForeignKey(SfGuardUser)
     percentage = models.DecimalField(null=True, max_digits=18, decimal_places=2, blank=True)
 
@@ -147,7 +145,7 @@ class CadPrjUser(models.Model):
 
 class CadSubfisc(models.Model):
     # @see for notnull and blank status
-    prc = models.ForeignKey(CadPrc)
+    prc = models.ForeignKey(Parcel)
     suf = models.CharField(max_length=2, blank=True)
     area = models.DecimalField(null=True, max_digits=10, decimal_places=4, blank=True)
 
