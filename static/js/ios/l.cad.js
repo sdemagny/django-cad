@@ -53,7 +53,6 @@ IOS.l.cad.map = (function () {
         map.addControl(d);
         map.addControl(new L.Control.Permalink({useLocation: true}));
         map.addControl(new L.Control.Scale());
-        map.addControl(new L.Control.ZoomFS());
 
         geocoder = new L.Control.BingGeocoder(config.bing_api_key);
         map.addControl(geocoder);

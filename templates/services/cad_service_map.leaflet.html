@@ -4,21 +4,9 @@
 <div id="frt-map"></div>
 {% endblock %}
 
-{% block javascript %}
-<link rel="stylesheet" href="/static/css/l.css">
-<link rel="stylesheet" href="/static/leaflet-plugins/css/distance.css" />
-<link rel="stylesheet" href="/static/css/leaflet-control-bing-geocoder.css" />
+{% block assets %}
 <script src="/static/js/ios/l.edigeo.js"></script>
-<script src="/static/js/ios/l.frt.js"></script>
 <script src="/static/js/ios/l.cad.js"></script>
-<script src="/static/leaflet-plugins/layer/tile/Bing.js"></script>
-<script src="/static/leaflet-plugins/layer/OpenStreetBugs.js"></script>
-<script src="/static/leaflet-plugins/layer/vector/GPX.js"></script>
-<script src="/static/leaflet-plugins/control/Scale.js"></script>
-<script src="/static/leaflet-plugins/control/Permalink.js"></script>
-<script src="/static/leaflet-plugins/control/Permalink.Line.js"></script>
-<script src="/static/leaflet-plugins/control/Distance.js"></script>
-<script src="/static/leaflet-zoomfs/leaflet.zoomfs.js"></script>
 <script src="/static/leaflet-control-bing-geocoder/Control.BingGeocoder.js"></script>
 <script>
     IOS.l.cad.map.init({
