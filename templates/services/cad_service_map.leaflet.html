@@ -1,13 +1,12 @@
 {% extends "index.html" %}
 
 {% block content %}
-<div id="frt-map"></div>
+<div id="map"></div>
 {% endblock %}
 
 {% block assets %}
 <script src="/static/js/ios/l.edigeo.js"></script>
 <script src="/static/js/ios/l.cad.js"></script>
-<script src="/static/leaflet-control-bing-geocoder/Control.BingGeocoder.js"></script>
 <script>
     IOS.l.cad.map.init({
         'cloudmade_api_key': '{{ CLOUDMADE_API_KEY }}',

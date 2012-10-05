@@ -8,7 +8,7 @@ IOS.l.cad.map = (function () {
 
     var config = {
             coord: [48.833349, 2.289649],
-            mapdiv: 'frt-map'
+            mapdiv: 'map'
         };
 
     function init(params) {
@@ -29,7 +29,7 @@ IOS.l.cad.map = (function () {
 
         config = $.extend(config, params);
 
-        map = L.map(config.mapdiv, {zoomControl: false}).setView(config.coord, 10);
+        map = L.map(config.mapdiv, {zoomControl: true}).setView(config.coord, 10);
 
         mapbox = new L.TileLayer('http://a.tiles.mapbox.com/v3/nippo.map-x23ct41d/{z}/{x}/{y}.png').addTo(map);
         cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/' + config.cloudmade_api_key + '/997/256/{z}/{x}/{y}.png', {
@@ -45,9 +45,9 @@ IOS.l.cad.map = (function () {
         pc = IOS.l.frt.map.pc.get(map);
 
         map.addControl(new L.Control.Layers({"Bing": bing, 'Cloudmade': cloudmade, "OSM": osm, "Mapbox": mapbox}, {
-            "Propriétés": parcels,
-            "Lieudit": lieudits,
-            "Forêts publiques de Poitou-Charente": pc
+            "Forêts publiques de Poitou-Charente": pc,
+            "Forêts privées": parcels,
+            "Lieudits": lieudits
         }, {}));
         d = new L.Control.Distance();
         map.addControl(d);
