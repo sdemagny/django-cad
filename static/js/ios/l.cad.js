@@ -12,9 +12,10 @@ IOS.l.cad.map = (function () {
         };
 
     function init(params) {
-        var parcels,
+        var map,
+            pc,
+            parcels,
             lieudits,
-            map,
             marker,
             cloudmade,
             osm,
@@ -41,8 +42,13 @@ IOS.l.cad.map = (function () {
 
         lieudits = IOS.l.edigeo.map.lieudits.get();
         parcels = IOS.l.cad.map.parcels.get();
+        pc = IOS.l.frt.map.pc.get(map);
 
-        map.addControl(new L.Control.Layers({"Bing": bing, 'Cloudmade': cloudmade, "OSM": osm, "Mapbox": mapbox}, {"Propriétés": parcels, "Lieudit": lieudits}, {}));
+        map.addControl(new L.Control.Layers({"Bing": bing, 'Cloudmade': cloudmade, "OSM": osm, "Mapbox": mapbox}, {
+            "Propriétés": parcels,
+            "Lieudit": lieudits,
+            "Forêts publiques de Poitou-Charente": pc
+        }, {}));
         d = new L.Control.Distance();
         map.addControl(d);
         map.addControl(new L.Control.Permalink({useLocation: true}));
