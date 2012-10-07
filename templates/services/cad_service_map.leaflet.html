@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block assets %}
-<script src="/static/js/ios/l.edigeo.js"></script>
-<script src="/static/js/ios/l.cad.js"></script>
+<script src="{{ STATIC_URL }}js/ios/l.edigeo.js"></script>
+<script src="{{ STATIC_URL }}js/ios/l.cad.js"></script>
 <script>
     IOS.l.cad.map.init({
         'cloudmade_api_key': '{{ CLOUDMADE_API_KEY }}',
