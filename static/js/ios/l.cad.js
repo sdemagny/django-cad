@@ -47,12 +47,14 @@ IOS.l.cad.map = (function () {
         map.addControl(new L.Control.Layers({"Bing": bing, 'Cloudmade': cloudmade, "OSM": osm, "Mapbox": mapbox}, {
             "Forêts publiques de Poitou-Charente": pc,
             "Forêts privées": parcels,
-            "Lieudits": lieudits
+            "Lieudits": lieudits,
+            "Parcelles cadastrales": IOS.l.edigeo.map.parcelles.get()
         }, {}));
         d = new L.Control.Distance();
         map.addControl(d);
         map.addControl(new L.Control.Permalink({useLocation: true}));
         map.addControl(new L.Control.Scale());
+        map.addControl(new L.Control.FullScreen());
 
         geocoder = new L.Control.BingGeocoder(config.bing_api_key);
         map.addControl(geocoder);
