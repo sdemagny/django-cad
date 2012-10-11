@@ -1,0 +1,98 @@
+digraph G {
+    // Tables
+	nodecad_prj_prc [
+		label="{<table>cad_prj_prc|<cols>id (integer) [PK]\lprc_id (integer)\lprj_id (integer)\lcomments (string)\lprospective_id (integer)\lyear (string)\lactivated (boolean)\lupdated_by (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodecad_prospective [
+		label="{<table>cad_prospective|<cols>id (integer) [PK]\ltheme (string)\l}",
+		shape=record ];
+	nodecad_prc [
+		label="{<table>cad_prc|<cols>id (integer) [PK]\llieudit_id (integer)\lnum_plan (integer)\lnum_parc_prim (integer)\lcode_edigeo (string)\ledigeo_area (decimal)\lthe_geom (blob)\l}",
+		shape=record ];
+	nodecad_fiscalite [
+		label="{<table>cad_fiscalite|<cols>id (integer) [PK]\leval_cult_id (integer)\lsubfisc_id (integer)\lrc (decimal)\lyear (string)\lactivated (boolean)\l}",
+		shape=record ];
+	nodecad_subfisc [
+		label="{<table>cad_subfisc|<cols>id (integer) [PK]\lprc_id (integer)\lsuf (string)\larea (decimal)\l}",
+		shape=record ];
+	nodecad_eval_cult [
+		label="{<table>cad_eval_cult|<cols>id (integer) [PK]\linsee_id (integer)\lgr_ss_gr (string)\lclasse (string)\lnat_cult (string)\l}",
+		shape=record ];
+	nodecad_section [
+		label="{<table>cad_section|<cols>id (integer) [PK]\linsee_id (integer)\lname (string)\l}",
+		shape=record ];
+	nodecad_prj [
+		label="{<table>cad_prj|<cols>id (integer) [PK]\lname (string)\laddress (string)\lphone (string)\ltheme (string)\ledigeo_area (decimal)\l}",
+		shape=record ];
+	nodecad_lieudit [
+		label="{<table>cad_lieudit|<cols>id (integer) [PK]\lsection_id (integer)\lname (string)\lcod_rivoli (string)\l}",
+		shape=record ];
+	nodecad_prj_user [
+		label="{<table>cad_prj_user|<cols>prj_id (integer) [PK]\luser_id (integer) [PK]\lpercentage (decimal)\l}",
+		shape=record ];
+	nodeinsee [
+		label="{<table>insee|<cols>id (integer) [PK]\lcode (string)\lname (string)\l}",
+		shape=record ];
+	nodecad_exoneration [
+		label="{<table>cad_exoneration|<cols>id (integer) [PK]\lfiscalite_id (integer)\lnat_exo (string)\luntil_year (string)\lpourcent_exo (integer)\l}",
+		shape=record ];
+	nodecad_prospective_translation [
+		label="{<table>cad_prospective_translation|<cols>id (integer) [PK]\lname (string)\llang (string) [PK]\l}",
+		shape=record ];
+	nodecad_frt [
+		label="{<table>cad_frt|<cols>id (integer) [PK]\lsubfisc_id (integer)\lsprf_id (integer)\lneo_nat_cu (string)\lneo_gr_ss (string)\lneo_suf (string)\lcalculated_area (decimal)\l}",
+		shape=record];
+
+	//nodevg_owners [
+		//label="{<table>vg_owners|<cols>gid (integer) [PK]\ltheme (string)\lname (string)\lactivated (boolean)\lupdated_by (integer)\lthe_geom (blob)\l}",
+		//shape=record, color="#FBCA54" ];
+	//nodevg_prospective [
+		//label="{<table>vg_prospective|<cols>gid (integer) [PK]\ltheme (string)\lname (string)\lupdated_by (integer)\lthe_geom (blob)\l}",
+		//shape=record, color="#FBCA54" ];
+
+    // Dependencies
+    nodesf_guard_user [
+        label="sf_guard_user",
+        shape=ellipse, style="filled", color="#9FC54E" ];
+    nodefrt_sprf [
+        label="frt_sprf",
+        shape=ellipse, style="filled", color="#9FC54E" ];
+
+    // Relations
+	nodecad_prj_prc:cols -> nodecad_prc:table [
+		label="prc_id=id"];
+	nodecad_prj_prc:cols -> nodecad_prj:table [
+		label="prj_id=id"];
+	nodecad_prj_prc:cols -> nodecad_prospective:table [
+		label="prospective_id=id"];
+	nodecad_prc:cols -> nodecad_lieudit:table [
+		label="lieudit_id=id"];
+	nodecad_fiscalite:cols -> nodecad_eval_cult:table [
+		label="eval_cult_id=id"];
+	nodecad_fiscalite:cols -> nodecad_subfisc:table [
+		label="subfisc_id=id"];
+	nodecad_subfisc:cols -> nodecad_prc:table [
+		label="prc_id=id"];
+	nodecad_eval_cult:cols -> nodeinsee:table [
+		label="insee_id=id"];
+	nodecad_section:cols -> nodeinsee:table [
+		label="insee_id=id"];
+	nodecad_lieudit:cols -> nodecad_section:table [
+		label="section_id=id"];
+	nodecad_prj_user:cols -> nodecad_prj:table [
+		label="prj_id=id"];
+	nodecad_exoneration:cols -> nodecad_fiscalite:table [
+		label="fiscalite_id=id"];
+	nodecad_prospective_translation:cols -> nodecad_prospective:table [
+		label="id=id"];
+	nodecad_frt:cols -> nodecad_subfisc:table [
+		label="subfisc_id=id"];
+
+    // Relations dependencies
+	nodecad_prj_prc:cols -> nodesf_guard_user [
+		label="updated_by=id"];
+	nodecad_prj_user:cols -> nodesf_guard_user [
+		label="user_id=id"];
+	nodecad_frt:cols -> nodefrt_sprf [
+		label="sprf_id=id"];
+}

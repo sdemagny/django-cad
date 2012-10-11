@@ -1,0 +1,30 @@
+digraph G {
+    edge [ len=2 labeldistance=2 ];
+    overlap=false;
+    splines=true;
+
+    nodecad_prc [
+        label="{<table>cad_prc|<cols>id (integer) [PK]\llieudit_id (integer)\lnum_plan (integer)\lnum_parc_prim (integer)\lcode_edigeo (string)\ledigeo_area (decimal)\lthe_geom (blob)\l}",
+        shape=record ];
+    nodecad_subfisc [
+        label="{<table>cad_subfisc|<cols>id (integer) [PK]\lprc_id (integer)\lsuf (string)\larea (decimal)\l}",
+        shape=record ];
+    nodecad_frt [
+        label="{<table>cad_frt|<cols>id (integer) [PK]\lsubfisc_id (integer)\lsprf_id (integer)\lneo_nat_cu (string)\lneo_gr_ss (string)\lneo_suf (string)\lcalculated_area (decimal)\l}",
+        shape=record, style="filled", color="#9FC54E" ];
+    nodefrt_sprf [
+        label="{<table>frt_sprf|<cols>id (integer) [PK]\lgid (integer)\lprf_id (integer)\lcode (string)\lnum (string)\lcalculated_cad_area (decimal)\lgis_area (float)\lthe_geom (blob)\ltyp_pplt_id (integer)\lpplt_id (integer)\lmanagement_aim_id (integer)\lobj_typ_pplt_id (integer)\lrecommandation_id (integer)\lspecie_id (integer)\lcod_desc_pplt (string)\ldescription_year (string)\lorigin (string)\lclasse (string)\lafforestation (string)\laverage_height (float)\laverage_diameter (float)\ldensity (integer)\lterriere_area (float)\lhealth (string)\ldescription (string)\lobservation (string)\lsynthesis (string)\l}",
+        shape=record ];
+    nodefrt_prf [
+        label="{<table>frt_prf|<cols>id (integer) [PK]\lnum (integer)\lsoil (string)\lstations (string)\llim_fact (string)\lsoil_depth (string)\lcalculated_cad_area (decimal)\l}",
+        shape=record ];
+
+    nodecad_subfisc:cols -> nodecad_prc:table [
+        label="prc_id=id"];
+    nodecad_frt:cols -> nodefrt_sprf:table [
+        label="sprf_id=id"];
+    nodecad_frt:cols -> nodecad_subfisc:table [
+        label="subfisc_id=id"];
+    nodefrt_sprf:cols -> nodefrt_prf:table [
+        label="prf_id=id"];
+}

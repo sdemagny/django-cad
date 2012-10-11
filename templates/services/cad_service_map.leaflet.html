@@ -1,14 +1,38 @@
 {% extends "index.html" %}
 
+{% block title %}
+<title>Services - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block breadcrumbs %}
+<li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">
+    <a href="/">Accueil</a>
+    <span class="divider">›</span>
+</li>
+<li class="active" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">
+    <a href="{% url 'page' 'services' %}">Services</a>
+</li>
+{% endblock %}
+
 {% block content %}
-<div id="map"></div>
+<div class="row-fluid">
+    <div class="span5">
+        <div id="map"></div>
+    </div>
+    <div class="span7">
+        <div ng-view></div>
+    </div>
+</div>
 {% endblock %}
 
 {% block assets %}
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+<script src="{{ STATIC_URL }}js/ng/cad.app.js"></script>
 <script src="{{ STATIC_URL }}js/ios/l.edigeo.js"></script>
 <script src="{{ STATIC_URL }}js/ios/l.cad.js"></script>
+<script src="{{ STATIC_URL }}js/ng/lib/angular-resource.min.js"></script>
 <script>
-    IOS.l.cad.map.init({
+    var map = IOS.l.cad.map.init({
         'cloudmade_api_key': '{{ CLOUDMADE_API_KEY }}',
         'bing_api_key': '{{ BING_API_KEY }}'
     });

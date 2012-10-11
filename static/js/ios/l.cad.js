@@ -50,14 +50,12 @@ IOS.l.cad.map = (function () {
             "Lieudits": lieudits,
             "Parcelles cadastrales": IOS.l.edigeo.map.parcelles.get()
         }, {}));
-        d = new L.Control.Distance();
-        map.addControl(d);
-        map.addControl(new L.Control.Permalink({useLocation: true}));
         map.addControl(new L.Control.Scale());
-        map.addControl(new L.Control.FullScreen());
 
         geocoder = new L.Control.BingGeocoder(config.bing_api_key);
-        map.addControl(geocoder);
+        map.attributionControl.setPrefix('');
+
+        return map;
     }
 
     return {
