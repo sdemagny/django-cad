@@ -11,21 +11,15 @@ IOS.l.cad.map = (function () {
             mapdiv: 'map'
         };
 
-    function init(params) {
+    function initMap(params) {
         var map,
-            pc,
-            parcels,
-            lieudits,
-            marker,
             cloudmade,
             osm,
             bing,
-            d,
-            z,
-            data,
-            geojsonFeature,
             mapbox,
-            geocoder;
+            parcels,
+            lieudits,
+            edigeo;
 
         config = $.extend(config, params);
 
@@ -39,27 +33,26 @@ IOS.l.cad.map = (function () {
         osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {styleId: 999});
         bing = new L.BingLayer(config.bing_api_key, {});
 
-
+        /** L.geoJson's, these calls load data from server */
         lieudits = IOS.l.edigeo.map.lieudits.get();
         parcels = IOS.l.cad.map.parcels.get();
-        pc = IOS.l.frt.map.pc.get(map);
+        edigeo = IOS.l.edigeo.map.parcelles.get();
 
         map.addControl(new L.Control.Layers({"Bing": bing, 'Cloudmade': cloudmade, "OSM": osm, "Mapbox": mapbox}, {
-            "Forêts publiques de Poitou-Charente": pc,
             "Forêts privées": parcels,
             "Lieudits": lieudits,
-            "Parcelles cadastrales": IOS.l.edigeo.map.parcelles.get()
+            "Parcelles cadastrales": edigeo
         }, {}));
-        map.addControl(new L.Control.Scale());
 
-        geocoder = new L.Control.BingGeocoder(config.bing_api_key);
+        map.addControl(new L.Control.FullScreen());
+        map.addControl(new L.Control.Scale());
         map.attributionControl.setPrefix('');
 
         return map;
     }
 
     return {
-        init: init
+        initMap: initMap
     };
 }());
 

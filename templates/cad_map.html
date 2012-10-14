@@ -1,7 +1,7 @@
 {% extends "index.html" %}
 
 {% block title %}
-<title>Services - {{ SITE_NAME }}</title>
+<title>Gestion foncière - {{ SITE_NAME }}</title>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -32,7 +32,7 @@
 <script src="{{ STATIC_URL }}js/ios/l.cad.js"></script>
 <script src="{{ STATIC_URL }}js/ng/lib/angular-resource.min.js"></script>
 <script>
-    var map = IOS.l.cad.map.init({
+    var map = IOS.l.cad.map.initMap({
         'cloudmade_api_key': '{{ CLOUDMADE_API_KEY }}',
         'bing_api_key': '{{ BING_API_KEY }}'
     });

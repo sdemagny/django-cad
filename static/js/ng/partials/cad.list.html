@@ -1,18 +1,19 @@
 <div class="row-fluid">
     <div class="span7">
-        <h2>Parcels</h2>
+        <h2>Parcelles</h2>
         <ul class="unstyled">
             <li ng-repeat="article in articles.features | filter:query | orderBy:orderProp" class="articles">
-                <a class="article" onclick="javascript:map.fitBounds(L.geoJson({{article}}, {style: {'color': '#ff7800', 'weight': 5, 'opacity': 0.65}}).addTo(map).getBounds());">{{article.properties.code_edigeo}}</a>
+            <a class="article" onclick="javascript:map.fitBounds(L.geoJson({{article}}).getBounds());">{{article.properties.lieudit}} {{article.properties.num_plan}}</a>
             </li>
         </ul>
     </div>
     <div class="span5">
-        <label>Search:</label>
-        <input ng-model="query">
-        <label>Sort by:</label>
-        <select ng-model="orderProp">
-            <option value="properties.code_edigeo">Code EDIGEO</option>
+        <label>Recherche :</label>
+        <input ng-model="query" class="span">
+        <label>Trier par :</label>
+        <select ng-model="orderProp" class="span">
+            <option value="properties.lieudit">Lieudit</option>
+            <option value="properties.num_plan">Numéro</option>
         </select>
     </div>
 </div>
