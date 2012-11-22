@@ -23,7 +23,8 @@ IOS.l.cad.map = (function () {
 
         config = $.extend(config, params);
 
-        map = L.map(config.mapdiv, {zoomControl: true}).setView(config.coord, 10);
+        // zoomControl is false to enable zoomfs leaflet plugin
+        map = L.map(config.mapdiv, {zoomControl: false}).setView(config.coord, 10);
 
         mapbox = new L.TileLayer('http://a.tiles.mapbox.com/v3/nippo.map-x23ct41d/{z}/{x}/{y}.png').addTo(map);
         cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/' + config.cloudmade_api_key + '/997/256/{z}/{x}/{y}.png', {
@@ -38,13 +39,15 @@ IOS.l.cad.map = (function () {
         parcels = IOS.l.cad.map.parcels.get();
         edigeo = IOS.l.edigeo.map.parcelles.get();
 
-        map.addControl(new L.Control.Layers({"Bing": bing, 'Cloudmade': cloudmade, "OSM": osm, "Mapbox": mapbox}, {
-            "Forêts privées": parcels,
-            "Lieudits": lieudits,
-            "Parcelles cadastrales": edigeo
-        }, {}));
+        map.addControl(
+            new L.Control.Layers({"Bing": bing, 'Cloudmade': cloudmade, "OSM": osm, "Mapbox": mapbox}, {
+                "Forêts privées": parcels,
+                "Lieudits": lieudits,
+                "Parcelles cadastrales": edigeo
+            }, {})
+        );
 
-        map.addControl(new L.Control.FullScreen());
+        map.addControl(new L.Control.ZoomFS());
         map.addControl(new L.Control.Scale());
         map.attributionControl.setPrefix('');
 
