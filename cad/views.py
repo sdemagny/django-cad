@@ -7,7 +7,7 @@ from django.http import HttpResponse
 
 
 def carto(request):
-    return render_to_response('cad_map.html', context_instance=RequestContext(request))
+    return render_to_response('cad/map.html', context_instance=RequestContext(request))
 
 
 @user_passes_test(lambda u: u.has_perm('staff'))
