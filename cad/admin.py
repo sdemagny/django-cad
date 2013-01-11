@@ -44,12 +44,8 @@ class CadProspectiveTranslationAdmin(admin.ModelAdmin):
 
 from ios.admin import IOSGeoAdmin
 
-from django.contrib.contenttypes.models import ContentType
-
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
-from django.template.response import TemplateResponse
-from django.conf import settings
 
 csrf_protect_m = method_decorator(csrf_protect)
 
