@@ -1,6 +1,9 @@
 from django.contrib.gis import admin
 
-from models import CadEvalCult, CadSection, CadExoneration, CadSubfisc, ParcelOwner, CadPrjUser, CadProspective, CadProspectiveTranslation, Parcel, Owner, CadLieudit, Insee
+from models import (CadEvalCult, CadSection, CadExoneration, CadSubfisc,
+                    ParcelOwner, CadPrjUser, Prospective,
+                    ProspectiveTranslation, Parcel, Owner, CadLieudit,
+                    Insee)
 
 admin.site.register(Insee, admin.ModelAdmin)
 
@@ -35,11 +38,11 @@ class CadPrjUserInline(admin.TabularInline):
     extra = 1
 
 
-class CadProspectiveAdmin(admin.ModelAdmin):
+class ProspectiveAdmin(admin.ModelAdmin):
     pass
 
 
-class CadProspectiveTranslationAdmin(admin.ModelAdmin):
+class ProspectiveTranslationAdmin(admin.ModelAdmin):
     list_display = ('name', 'lang', 'id')
 
 from ios.admin import IOSGeoAdmin
@@ -73,5 +76,5 @@ admin.site.register(CadSubfisc, CadSubfiscAdmin)
 admin.site.register(Parcel, ParcelAdmin)
 admin.site.register(Owner, OwnerAdmin)
 admin.site.register(CadLieudit, CadLieuditAdmin)
-admin.site.register(CadProspective, CadProspectiveAdmin)
-admin.site.register(CadProspectiveTranslation, CadProspectiveTranslationAdmin)
+admin.site.register(Prospective, ProspectiveAdmin)
+admin.site.register(ProspectiveTranslation, ProspectiveTranslationAdmin)

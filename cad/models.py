@@ -27,10 +27,11 @@ class CadEvalCult(models.Model):
         verbose_name = "Culture evaluation"
 
     def __unicode__(self):
-        return u'%s %s %s %s' % (self.insee, self.gr_ss_gr, self.classe, self.nat_cult)
+        return u'%s %s %s %s' % (
+            self.insee, self.gr_ss_gr, self.classe, self.nat_cult)
 
 
-class CadProspective(models.Model):
+class Prospective(models.Model):
     theme = models.CharField(max_length=255, blank=True)
 
     class Meta:
@@ -41,8 +42,8 @@ class CadProspective(models.Model):
         return u'%s' % (self.theme)
 
 
-class CadProspectiveTranslation(models.Model):
-    id = models.ForeignKey(CadProspective, db_column='id', primary_key=True)
+class ProspectiveTranslation(models.Model):
+    id = models.ForeignKey(Prospective, db_column='id', primary_key=True)
     name = models.TextField(blank=True)
     lang = models.CharField(max_length=2)
 
@@ -87,7 +88,8 @@ class Parcel(models.Model):
     # @todo See max_length in database
     code_edigeo = models.CharField(max_length=255, blank=True)
     gid = models.IntegerField(null=True, blank=True)
-    edigeo_area = models.DecimalField(null=True, max_digits=18, decimal_places=4, blank=True)
+    edigeo_area = models.DecimalField(
+        null=True, max_digits=18, decimal_places=4, blank=True)
 
     the_geom = models.PolygonField(srid=900913)
     objects = models.GeoManager()
@@ -107,7 +109,8 @@ class Owner(models.Model):
     # @todo See max_length in database
     phone = models.CharField(max_length=255, blank=True)
     theme = models.CharField(max_length=255, blank=True)
-    edigeo_area = models.DecimalField(null=True, max_digits=18, decimal_places=2, blank=True)
+    edigeo_area = models.DecimalField(
+        null=True, max_digits=18, decimal_places=2, blank=True)
 
     class Meta:
         db_table = u'cad_prj'
@@ -123,8 +126,9 @@ class ParcelOwner(models.Model):
     year = models.CharField(max_length=4, blank=True)
     activated = models.BooleanField()
     comments = models.CharField(max_length=255, blank=True)
-    updated_by = models.ForeignKey(SfGuardUser, null=True, db_column='updated_by', blank=True)
-    prospective = models.ForeignKey(CadProspective, null=True, blank=True)
+    updated_by = models.ForeignKey(
+        SfGuardUser, null=True, db_column='updated_by', blank=True)
+    prospective = models.ForeignKey(Prospective, null=True, blank=True)
     created_at = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(null=True, blank=True)
 
@@ -136,7 +140,8 @@ class ParcelOwner(models.Model):
 class CadPrjUser(models.Model):
     prj = models.ForeignKey(Owner)
     user = models.ForeignKey(SfGuardUser)
-    percentage = models.DecimalField(null=True, max_digits=18, decimal_places=2, blank=True)
+    percentage = models.DecimalField(
+        null=True, max_digits=18, decimal_places=2, blank=True)
 
     class Meta:
         db_table = u'cad_prj_user'
@@ -147,7 +152,8 @@ class CadSubfisc(models.Model):
     # @see for notnull and blank status
     prc = models.ForeignKey(Parcel)
     suf = models.CharField(max_length=2, blank=True)
-    area = models.DecimalField(null=True, max_digits=10, decimal_places=4, blank=True)
+    area = models.DecimalField(
+        null=True, max_digits=10, decimal_places=4, blank=True)
 
     class Meta:
         db_table = u'cad_subfisc'
@@ -165,7 +171,8 @@ class CadFrt(models.Model):
     neo_nat_cu = models.CharField(max_length=25, blank=True)
     neo_gr_ss = models.CharField(max_length=2, blank=True)
     neo_suf = models.CharField(max_length=1, blank=True)
-    calculated_area = models.DecimalField(null=True, max_digits=10, decimal_places=4, blank=True)
+    calculated_area = models.DecimalField(
+        null=True, max_digits=10, decimal_places=4, blank=True)
 
     class Meta:
         db_table = u'cad_frt'
@@ -176,7 +183,8 @@ class CadFiscalite(models.Model):
     id = models.IntegerField(primary_key=True)
     eval_cult = models.ForeignKey(CadEvalCult, null=True, blank=True)
     subfisc = models.ForeignKey(CadSubfisc, null=True, blank=True)
-    rc = models.DecimalField(null=True, max_digits=10, decimal_places=4, blank=True)
+    rc = models.DecimalField(
+        null=True, max_digits=10, decimal_places=4, blank=True)
     year = models.CharField(max_length=4, blank=True)
     activated = models.BooleanField()
 

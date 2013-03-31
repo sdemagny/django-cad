@@ -7,13 +7,15 @@ from django.http import HttpResponse
 
 
 def carto(request):
-    return render_to_response('cad/map.html', context_instance=RequestContext(request))
+    return render_to_response(
+        'cad/map.html', context_instance=RequestContext(request))
 
 
 @user_passes_test(lambda u: u.has_perm('staff'))
 def parcels(request):
     qs = Parcel.objects.select_related().all()
-    json = render_to_geojson(qs, projection=4326, properties=['num_plan', 'code_edigeo', 'lieudit'])
+    json = render_to_geojson(
+        qs, projection=4326, properties=['num_plan', 'code_edigeo', 'lieudit'])
 
     return HttpResponse(json, mimetype=u'application/json')
 
@@ -23,7 +25,8 @@ import os
 
 
 def ng_list(request):
-    filename = os.path.abspath(os.path.dirname(__file__) + '/static/js/ng/partials/cad.list.html')
+    filename = os.path.abspath(
+        os.path.dirname(__file__) + '/static/js/ng/partials/cad.list.html')
     wrapper = FileWrapper(file(filename))
 
     return HttpResponse(wrapper)
