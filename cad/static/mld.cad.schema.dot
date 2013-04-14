@@ -1,4 +1,4 @@
-digraph G {
+digraph cad {
     // Tables
 	nodecad_prj_prc [
 		label="{<table>cad_prj_prc|<cols>id (integer) [PK]\lprc_id (integer)\lprj_id (integer)\lcomments (string)\lprospective_id (integer)\lyear (string)\lactivated (boolean)\lupdated_by (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
@@ -52,7 +52,7 @@ digraph G {
 
     // Dependencies
     nodesf_guard_user [
-        label="sf_guard_user",
+        label="sf_guard_user (@todo dajngo_auth)",
         shape=ellipse, style="filled", color="#9FC54E" ];
     nodefrt_sprf [
         label="frt_sprf",

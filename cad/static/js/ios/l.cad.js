@@ -17,14 +17,19 @@ IOS.l.cad.map = (function () {
             osm,
             bing,
             mapbox,
+
+            ownership,
             parcels,
             lieudits,
-            edigeo;
+
+            hash;
 
         config = $.extend(config, params);
 
         // zoomControl is false to enable zoomfs leaflet plugin
         map = L.map(config.mapdiv, {zoomControl: false}).setView(config.coord, 10);
+
+        hash = new L.Hash(map);
 
         mapbox = new L.TileLayer('http://a.tiles.mapbox.com/v3/nippo.map-x23ct41d/{z}/{x}/{y}.png').addTo(map);
         cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/' + config.cloudmade_api_key + '/997/256/{z}/{x}/{y}.png', {
@@ -36,14 +41,14 @@ IOS.l.cad.map = (function () {
 
         /** L.geoJson's, these calls load data from server */
         lieudits = IOS.l.edigeo.map.lieudits.get();
-        parcels = IOS.l.cad.map.parcels.get();
-        edigeo = IOS.l.edigeo.map.parcelles.get();
+        ownership = IOS.l.cad.map.ownership.get();
+        parcels = IOS.l.edigeo.map.parcels.get();
 
         map.addControl(
             new L.Control.Layers({"Bing": bing, 'Cloudmade': cloudmade, "OSM": osm, "Mapbox": mapbox}, {
-                "Forêts privées": parcels,
+                "Forêts privées": ownership,
                 "Lieudits": lieudits,
-                "Parcelles cadastrales": edigeo
+                "Parcelles cadastrales": parcels
             }, {})
         );
 
@@ -60,18 +65,24 @@ IOS.l.cad.map = (function () {
 }());
 
 
-IOS.l.cad.map.parcels = (function () {
+IOS.l.cad.map.ownership = (function () {
     'use strict';
     var config = {
-            url: '/layers/cad/parcels',
-            property: 'code_edigeo'
+            url: '/layers/cad/ownership',
+            property: 'name',
+            theme: 'theme'
         },
         geojson = function geojson() {
             var layer = L.geoJson('', {
+                    style: function (feature) {
+
+                        return {color: feature.properties[config.theme], weight: 1, opacity: 0.8};
+                    },
                     onEachFeature: function onEachFeature(feature, layer) {
                         if (feature.properties && feature.properties[config.property]) {
                             layer.bindPopup(feature.properties[config.property]);
                         }
+
                     },
                     attribution: '@todo'
                 }),

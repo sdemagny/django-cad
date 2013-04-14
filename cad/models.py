@@ -9,7 +9,6 @@ class Insee(models.Model):
 
     class Meta:
         db_table = u'insee'
-        app_label = "cadastre"
 
     def __unicode__(self):
         return self.name
@@ -23,7 +22,6 @@ class CadEvalCult(models.Model):
 
     class Meta:
         db_table = u'cad_eval_cult'
-        app_label = "cadastre"
         verbose_name = "Culture evaluation"
 
     def __unicode__(self):
@@ -36,7 +34,6 @@ class Prospective(models.Model):
 
     class Meta:
         db_table = u'cad_prospective'
-        app_label = "cadastre"
 
     def __unicode__(self):
         return u'%s' % (self.theme)
@@ -49,7 +46,6 @@ class ProspectiveTranslation(models.Model):
 
     class Meta:
         db_table = u'cad_prospective_translation'
-        app_label = "cadastre"
         verbose_name = "prospective translation"
 
 
@@ -60,7 +56,6 @@ class CadSection(models.Model):
     class Meta:
         db_table = u'cad_section'
         verbose_name = 'section'
-        app_label = "cadastre"
 
     def __unicode__(self):
         return u'%s %s' % (self.insee, self.name)
@@ -73,25 +68,78 @@ class CadLieudit(models.Model):
 
     class Meta:
         db_table = u'cad_lieudit'
-        app_label = "cadastre"
         verbose_name = "lieudit"
 
     def __unicode__(self):
         return u'%s %s' % (self.section, self.name)
 
 
+class VgOwners(models.Model):
+    """
+        ->select(sprintf('gid, id_prj,
+             activated, name, theme, updated_by, the_geom,
+             (case when updated_by = %s then 1 else 0 end) as priority',
+             $userId))
+        ->andWhereIn('id_prj', $prjIds)
+        ->andWhere('activated = ?', true)
+        ->orWhere('updated_by = ?', $userId)
+        ->andWhere('activated = ?', true)
+        ->orderBy('priority desc');
+    """
+    gid = models.IntegerField(primary_key=True)
+    id_prj = models.IntegerField(null=True, blank=True)
+    name = models.CharField(max_length=50, blank=True)
+    theme = models.CharField(max_length=255, blank=True)
+    updated_by = models.IntegerField(null=True, blank=True)
+    activated = models.BooleanField()
+
+    the_geom = models.PolygonField(srid=900913)
+
+    objects = models.GeoManager()
+
+    class Meta:
+        db_table = u'vg_owners'
+
+
+class VgProspective(models.Model):
+    """
+        ->select(sprintf('gid, id_prj,
+             activated, name, theme, updated_by, the_geom,
+             (case when updated_by = %s then 1 else 0 end) as priority',
+             $userId))
+        ->andWhereIn('id_prj', $prjIds)
+        ->andWhere('activated = ?', true)
+        ->orWhere('updated_by = ?', $userId)
+        ->andWhere('activated = ?', true)
+        ->orderBy('priority desc');
+    """
+    gid = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50, blank=True)
+    theme = models.CharField(max_length=255, blank=True)
+    id_prj = models.IntegerField(null=True, blank=True)
+    updated_by = models.IntegerField(null=True, blank=True)
+    activated = models.BooleanField()
+
+    the_geom = models.MultiPolygonField(srid=900913)
+
+    class Meta:
+        db_table = u'vg_prospective'
+
+
 class Parcel(models.Model):
     # @todo See null and blank
     lieudit = models.ForeignKey(CadLieudit)
+
     num_plan = models.IntegerField(null=True, blank=True)
     num_parc_prim = models.IntegerField(null=True, blank=True)
-    # @todo See max_length in database
+    # character varying in postgresql database
     code_edigeo = models.CharField(max_length=255, blank=True)
     gid = models.IntegerField(null=True, blank=True)
     edigeo_area = models.DecimalField(
         null=True, max_digits=18, decimal_places=4, blank=True)
 
     the_geom = models.PolygonField(srid=900913)
+
     objects = models.GeoManager()
 
     def __unicode__(self):
@@ -99,7 +147,6 @@ class Parcel(models.Model):
 
     class Meta:
         db_table = u'cad_prc'
-        app_label = "cadastre"
 
 
 class Owner(models.Model):
@@ -114,7 +161,6 @@ class Owner(models.Model):
 
     class Meta:
         db_table = u'cad_prj'
-        app_label = "cadastre"
 
     def __unicode__(self):
         return u'%s' % (self.name)
@@ -134,7 +180,6 @@ class ParcelOwner(models.Model):
 
     class Meta:
         db_table = u'cad_prj_prc'
-        app_label = "cadastre"
 
 
 class CadPrjUser(models.Model):
@@ -145,7 +190,6 @@ class CadPrjUser(models.Model):
 
     class Meta:
         db_table = u'cad_prj_user'
-        app_label = "cadastre"
 
 
 class CadSubfisc(models.Model):
@@ -157,7 +201,6 @@ class CadSubfisc(models.Model):
 
     class Meta:
         db_table = u'cad_subfisc'
-        app_label = "cadastre"
         verbose_name = "subdivision"
 
     def __unicode__(self):
@@ -176,7 +219,6 @@ class CadFrt(models.Model):
 
     class Meta:
         db_table = u'cad_frt'
-        app_label = "cadastre"
 
 
 class CadFiscalite(models.Model):
@@ -190,7 +232,6 @@ class CadFiscalite(models.Model):
 
     class Meta:
         db_table = u'cad_fiscalite'
-        app_label = "cadastre"
 
     def __unicode__(self):
         return u'%s %s %s' % (self.rc, self.year, self.activated)
@@ -204,36 +245,7 @@ class CadExoneration(models.Model):
 
     class Meta:
         db_table = u'cad_exoneration'
-        app_label = "cadastre"
         verbose_name = "Exoneration"
 
     def __unicode__(self):
         return u'%s %s %s' % (self.nat_exo, self.until_year, self.pourcent_exo)
-
-
-class VgProspective(models.Model):
-    gid = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=50, blank=True)
-    theme = models.CharField(max_length=255, blank=True)
-    id_prj = models.IntegerField(null=True, blank=True)
-    updated_by = models.IntegerField(null=True, blank=True)
-    activated = models.BooleanField()
-    the_geom = models.MultiPolygonField(srid=900913)
-
-    class Meta:
-        db_table = u'vg_prospective'
-        app_label = "cadastre"
-
-
-class VgOwners(models.Model):
-    gid = models.IntegerField(primary_key=True)
-    id_prj = models.IntegerField(null=True, blank=True)
-    name = models.CharField(max_length=50, blank=True)
-    theme = models.CharField(max_length=255, blank=True)
-    updated_by = models.IntegerField(null=True, blank=True)
-    activated = models.BooleanField()
-    the_geom = models.MultiPolygonField(srid=900913)
-
-    class Meta:
-        db_table = u'vg_owners'
-        app_label = "cadastre"

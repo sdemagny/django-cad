@@ -1,9 +1,6 @@
 from django.contrib.gis import admin
 
-from models import (CadEvalCult, CadSection, CadExoneration, CadSubfisc,
-                    ParcelOwner, CadPrjUser, Prospective,
-                    ProspectiveTranslation, Parcel, Owner, CadLieudit,
-                    Insee)
+from .models import *
 
 admin.site.register(Insee, admin.ModelAdmin)
 

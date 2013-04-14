@@ -24,11 +24,13 @@
 {% endblock %}
 
 {% block assets %}
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
-    <script src="{{ STATIC_URL }}js/ng/cad.app.js"></script>
+    <script src="{{ STATIC_URL }}leaflet/dist/leaflet.js"></script>
+    <script src="{{ STATIC_URL }}leaflet-plugins/layer/tile/Bing.js"></script>
+    <script src="{{ STATIC_URL }}leaflet-zoomfs/leaflet.zoomfs.js"></script>
+    <script src="{{ STATIC_URL }}leaflet-hash/leaflet-hash.js"></script>
+    <script src="{{ STATIC_URL }}leaflet-dvf/dist/leaflet-dvf.min.js"></script>
     <script src="{{ STATIC_URL }}js/ios/l.edigeo.js"></script>
     <script src="{{ STATIC_URL }}js/ios/l.cad.js"></script>
-    <script src="{{ STATIC_URL }}js/ng/lib/angular-resource.min.js"></script>
     <script>
         var map = IOS.l.cad.map.initMap({
             'cloudmade_api_key': '{{ CLOUDMADE_API_KEY }}',
