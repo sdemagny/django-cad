@@ -17,7 +17,8 @@ def ownership(request):
     json = render_to_geojson(
         qs,
         projection=4326,
-        properties=['name', 'theme', 'activated']
+        properties=[
+            ('name', 'name'), ('theme', 'theme'), ('activated', 'activated')]
     )
 
     return HttpResponse(json, content_type=u'application/json')
