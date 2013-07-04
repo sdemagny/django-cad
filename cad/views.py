@@ -20,4 +20,4 @@ def ownership(request):
         properties=['name', 'theme', 'activated']
     )
 
-    return HttpResponse(json, mimetype=u'application/json')
+    return HttpResponse(json, content_type=u'application/json')
