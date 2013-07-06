@@ -18,7 +18,15 @@
             <div id="map"></div>
         </div>
         <div class="span7">
-            <div ng-view></div>
+            <ul>
+                <li id="lieudits">Lieudits</li>
+                <li id="parcels">Parcelles cadastrales</li>
+                <li id="ownership">Prospective</li>
+            </ul>
+            {% load scribbler_tags %}
+            {% scribble 'home' %}
+            <p>Placeholder</p>
+            {% endscribble %}
         </div>
     </div>
 {% endblock %}

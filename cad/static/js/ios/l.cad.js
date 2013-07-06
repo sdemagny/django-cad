@@ -13,6 +13,7 @@ IOS.l.cad.map = (function () {
 
     function initMap(params) {
         var map,
+            bbox,
             cloudmade,
             osm,
             bing,
@@ -28,6 +29,7 @@ IOS.l.cad.map = (function () {
 
         // zoomControl is false to enable zoomfs leaflet plugin
         map = L.map(config.mapdiv, {zoomControl: false}).setView(config.coord, 10);
+        bbox = '-0.39, 45.2, -0.30, 45.25';
 
         hash = new L.Hash(map);
 
@@ -40,9 +42,34 @@ IOS.l.cad.map = (function () {
         bing = new L.BingLayer(config.bing_api_key, {});
 
         /** L.geoJson's, these calls load data from server */
-        lieudits = IOS.l.edigeo.map.lieudits.get();
-        ownership = IOS.l.cad.map.ownership.get();
-        parcels = IOS.l.edigeo.map.parcels.get();
+        lieudits = IOS.l.edigeo.map.lieudits.get(bbox);
+        ownership = IOS.l.cad.map.ownership.get(bbox);
+        parcels = IOS.l.edigeo.map.parcels.get(bbox);
+
+
+        $('#parcels').on('click', function () {
+            if (map.hasLayer(parcels)) {
+                parcels.removeLayer(parcels);
+            } else {
+                map.addLayer(parcels);
+            }
+        });
+
+        $('#ownership').on('click', function () {
+            if (map.hasLayer(ownership)) {
+                ownership.removeLayer(ownership);
+            } else {
+                map.addLayer(ownership);
+            }
+        });
+
+        $('#lieudits').on('click', function () {
+            if (map.hasLayer(lieudits)) {
+                lieudits.removeLayer(lieudits);
+            } else {
+                map.addLayer(lieudits);
+            }
+        });
 
         map.addControl(
             new L.Control.Layers({"Bing": bing, 'Cloudmade': cloudmade, "OSM": osm, "Mapbox": mapbox}, {
@@ -65,14 +92,15 @@ IOS.l.cad.map = (function () {
 }());
 
 
-IOS.l.cad.map.ownership = (function () {
+IOS.l.cad.map.ownership = (function (map) {
     'use strict';
     var config = {
             url: '/layers/cad/ownership',
             property: 'name',
-            theme: 'theme'
+            theme: 'theme',
+            infos_container: '#infos'
         },
-        geojson = function geojson() {
+        get = function geojson(bbox) {
             var layer = L.geoJson('', {
                     style: function (feature) {
 
@@ -80,14 +108,16 @@ IOS.l.cad.map.ownership = (function () {
                     },
                     onEachFeature: function onEachFeature(feature, layer) {
                         if (feature.properties && feature.properties[config.property]) {
-                            layer.bindPopup(feature.properties[config.property]);
+                            $(layer).on('click mouseover', function (e) {
+                                $(config.infos_container).html(feature.properties[config.property]);
+                            });
                         }
 
                     },
                     attribution: '@todo'
                 }),
                 legend;
-            $.getJSON(config.url, function (data) {
+            $.getJSON(config.url + '?bbox=' + bbox, function (data) {
                 $.each(data.features, function (index, element) {
                     layer.addData(element);
                 });
@@ -97,6 +127,6 @@ IOS.l.cad.map.ownership = (function () {
         };
 
     return {
-        get: geojson
+        get: get
     };
 }());
