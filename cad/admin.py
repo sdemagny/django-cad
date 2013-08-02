@@ -1,6 +1,11 @@
 from django.contrib.gis import admin
 
 from .models import *
+from ios.admin import IOSGeoAdmin
+
+from django.views.decorators.csrf import csrf_protect
+from django.utils.decorators import method_decorator
+
 
 admin.site.register(Insee, admin.ModelAdmin)
 
@@ -11,7 +16,7 @@ class CadEvalCultAdmin(admin.ModelAdmin):
     raw_id_fields = ('insee',)
 
 
-class CadSectionAdmin(admin.ModelAdmin):
+class SectionAdmin(admin.ModelAdmin):
     raw_id_fields = ('insee',)
 
 
@@ -42,10 +47,6 @@ class ProspectiveAdmin(admin.ModelAdmin):
 class ProspectiveTranslationAdmin(admin.ModelAdmin):
     list_display = ('name', 'lang', 'id')
 
-from ios.admin import IOSGeoAdmin
-
-from django.views.decorators.csrf import csrf_protect
-from django.utils.decorators import method_decorator
 
 csrf_protect_m = method_decorator(csrf_protect)
 
@@ -62,16 +63,16 @@ class OwnerAdmin(admin.ModelAdmin):
     inlines = (CadPrjUserInline, )
 
 
-class CadLieuditAdmin(admin.ModelAdmin):
+class LieuditAdmin(admin.ModelAdmin):
     list_select_related = True
 
 
 admin.site.register(CadEvalCult, CadEvalCultAdmin)
-admin.site.register(CadSection, CadSectionAdmin)
+admin.site.register(Section, SectionAdmin)
 admin.site.register(CadExoneration, CadExonerationAdmin)
 admin.site.register(CadSubfisc, CadSubfiscAdmin)
 admin.site.register(Parcel, ParcelAdmin)
 admin.site.register(Owner, OwnerAdmin)
-admin.site.register(CadLieudit, CadLieuditAdmin)
+admin.site.register(Lieudit, LieuditAdmin)
 admin.site.register(Prospective, ProspectiveAdmin)
 admin.site.register(ProspectiveTranslation, ProspectiveTranslationAdmin)

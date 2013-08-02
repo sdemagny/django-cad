@@ -49,7 +49,7 @@ class ProspectiveTranslation(models.Model):
         verbose_name = "prospective translation"
 
 
-class CadSection(models.Model):
+class Section(models.Model):
     insee = models.ForeignKey(Insee)
     name = models.CharField(max_length=50)
 
@@ -61,8 +61,8 @@ class CadSection(models.Model):
         return u'%s %s' % (self.insee, self.name)
 
 
-class CadLieudit(models.Model):
-    section = models.ForeignKey(CadSection)
+class Lieudit(models.Model):
+    section = models.ForeignKey(Section)
     name = models.CharField(max_length=50, blank=True)
     cod_rivoli = models.CharField(max_length=50, blank=True)
 
@@ -128,7 +128,7 @@ class VgProspective(models.Model):
 
 class Parcel(models.Model):
     # @todo See null and blank
-    lieudit = models.ForeignKey(CadLieudit)
+    lieudit = models.ForeignKey(Lieudit)
 
     num_plan = models.IntegerField(null=True, blank=True)
     num_parc_prim = models.IntegerField(null=True, blank=True)
