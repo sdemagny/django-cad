@@ -34,8 +34,8 @@ IOS.l.cad.map = (function () {
 
         hash = new L.Hash(map);
 
-        empty = new L.Path();
-        mapbox = new L.TileLayer('http://a.tiles.mapbox.com/v3/nippo.map-x23ct41d/{z}/{x}/{y}.png').addTo(map);
+        empty = new L.Path().addTo(map);
+        mapbox = new L.TileLayer('http://a.tiles.mapbox.com/v3/nippo.map-x23ct41d/{z}/{x}/{y}.png');
         cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/' + config.cloudmade_api_key + '/997/256/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a target="_blank"  href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a target="_blank"  href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a target="_blank"  href="http://cloudmade.com">CloudMade</a>',
             maxZoom: 18
@@ -45,9 +45,8 @@ IOS.l.cad.map = (function () {
 
         /** L.geoJson's, these calls load data from server */
         lieudits = IOS.l.edigeo.map.lieudits.get(bbox);
-        ownership = IOS.l.cad.map.ownership.get(bbox);
         parcels = IOS.l.edigeo.map.parcels.get(bbox);
-
+        ownership = IOS.l.cad.map.ownership.get(bbox).addTo(map);
 
         $('#parcels').on('click', function () {
             if (map.hasLayer(parcels)) {

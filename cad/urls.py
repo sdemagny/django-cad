@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from tastypie.api import Api
-from cad.api import \
-        ParcelResource, LieuditResource, InseeResource, SectionResource
+from cad.api import ParcelResource, LieuditResource,\
+    InseeResource, SectionResource
 
 a = Api(api_name='a')
 a.register(InseeResource())
