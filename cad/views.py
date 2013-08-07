@@ -15,6 +15,7 @@ def carto(request):
 
 @user_passes_test(lambda u: u.has_perm('staff'))
 def ownership(request):
+    # @todo Move this filter to model
     qs = VgOwners.objects.filter(activated=True)
     bbox = ast.literal_eval(
         '(' + request.GET.get('bbox', '-160, -89, 160, 89') + ')')
