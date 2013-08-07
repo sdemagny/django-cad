@@ -6,31 +6,28 @@
 
 {% block breadcrumbs %}
     <li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">
-    <a href="/">{% trans "Home" %}</a>
-        <span class="divider">›</span>
+        <a href="/">{% trans "Home" %}</a>
     </li>
     <li class="active" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">
-    <a href="{% url 'page' 'services' %}">{% trans "Services" %}</a>
+        <a href="{% url 'page' 'services' %}">{% trans "Services" %}</a>
     </li>
 {% endblock %}
 
 {% block content %}
-    <div class="row-fluid">
-        <div class="span5">
-            <div id="map"></div>
-        </div>
-        <div class="span7">
-            <h2><a href="{% url 'cad_carto' %}{{ request.user.seed.profil }}">{% trans "Land mapping" %}</a></h2>
-            <h3>{% trans "Layers" %}</h3>
-            <ul>
-                <li id="lieudits">{% trans "Lieudits" %}</li>
-                <li id="parcels">{% trans "Plots" %}</li>
-                <li id="ownership">{% trans "Prospective" %}</li>
-            </ul>
-            <h3>{% trans "Informations" %}</h3>
-            <div id="infos"></div>
-        </div>
-    </div>
+<div class="col-lg-5">
+    <div id="map"></div>
+</div>
+<div class="col-lg-7">
+    <h2><a href="{% url 'cad_carto' %}{{ request.user.seed.profil }}">{% trans "Land mapping" %}</a></h2>
+    <h3>{% trans "Layers" %}</h3>
+    <ul>
+        <li id="lieudits">{% trans "Lieudits" %}</li>
+        <li id="parcels">{% trans "Plots" %}</li>
+        <li id="ownership">{% trans "Prospective" %}</li>
+    </ul>
+    <h3>{% trans "Informations" %}</h3>
+    <div id="infos"></div>
+</div>
 {% endblock %}
 
 {% block assets %}
