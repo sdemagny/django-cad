@@ -14,9 +14,6 @@ IOS.l.cad.map = (function () {
     function initMap(params) {
         var map,
             bbox,
-            cloudmade,
-            osm,
-            bing,
             mapbox,
             empty,
 
@@ -29,19 +26,13 @@ IOS.l.cad.map = (function () {
         config = $.extend(config, params);
 
         // zoomControl is false to enable zoomfs leaflet plugin
-        map = L.map(config.mapdiv, {zoomControl: false}).setView(config.coord, 10);
+        map = L.map(config.mapdiv, {fullscreenControl: true}).setView(config.coord, 10);
         bbox = '-0.39, 45.2, -0.30, 45.25';
 
         hash = new L.Hash(map);
 
         empty = new L.Path().addTo(map);
         mapbox = new L.TileLayer('http://a.tiles.mapbox.com/v3/nippo.map-x23ct41d/{z}/{x}/{y}.png');
-        cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/' + config.cloudmade_api_key + '/997/256/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; <a target="_blank"  href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a target="_blank"  href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a target="_blank"  href="http://cloudmade.com">CloudMade</a>',
-            maxZoom: 18
-        });
-        osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {styleId: 999});
-        bing = new L.BingLayer(config.bing_api_key, {});
 
         /** L.geoJson's, these calls load data from server */
         lieudits = IOS.l.edigeo.map.lieudits.get(bbox);
@@ -76,9 +67,6 @@ IOS.l.cad.map = (function () {
             new L.Control.Layers(
                 {
                     "Aucun": empty,
-                    //"Bing": bing,
-                    //'Cloudmade': cloudmade,
-                    //"OSM": osm,
                     "Mapbox": mapbox
                 },
                 {
@@ -90,7 +78,6 @@ IOS.l.cad.map = (function () {
             )
         );
 
-        map.addControl(new L.Control.ZoomFS());
         map.addControl(new L.Control.Scale());
         map.attributionControl.setPrefix('');
 
