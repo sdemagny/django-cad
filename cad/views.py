@@ -6,6 +6,7 @@ from geoshortcuts.geojson import render_to_geojson
 from django.http import HttpResponse
 from django.contrib.gis.geos import Polygon
 import ast
+from django.views.decorators.gzip import gzip_page
 
 
 def carto(request):
@@ -14,11 +15,12 @@ def carto(request):
 
 
 @user_passes_test(lambda u: u.has_perm('staff'))
+@gzip_page
 def ownership(request):
     # @todo Move this filter to model
     qs = VgOwners.objects.filter(activated=True)
     bbox = ast.literal_eval(
-        '(' + request.GET.get('bbox', '-160, -89, 160, 89') + ')')
+        '(%s)' % (request.GET.get('bbox', '-160, -89, 160, 89')))
     polygon = Polygon.from_bbox(bbox)
     polygon.set_srid(4326)
     polygon.transform(900913)

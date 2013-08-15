@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 from guard.models import SfGuardUser
-from frt.models import FrtSprf
+from frt.models import Sprf
 
 
 class Insee(models.Model):
@@ -210,7 +210,7 @@ class CadSubfisc(models.Model):
 class CadFrt(models.Model):
     id = models.IntegerField(primary_key=True)
     subfisc = models.ForeignKey(CadSubfisc, null=True, blank=True)
-    sprf = models.ForeignKey(FrtSprf, null=True, blank=True)
+    sprf = models.ForeignKey(Sprf, null=True, blank=True)
     neo_nat_cu = models.CharField(max_length=25, blank=True)
     neo_gr_ss = models.CharField(max_length=2, blank=True)
     neo_suf = models.CharField(max_length=1, blank=True)

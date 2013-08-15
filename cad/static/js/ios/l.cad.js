@@ -1,5 +1,5 @@
 /*jslint browser: true*/
-/*global $, jQuery, IOS, L*/
+/*global $, jQuery, IOS, L, gettext*/
 
 IOS.ns('l.cad.map');
 
@@ -16,6 +16,7 @@ IOS.l.cad.map = (function () {
             bbox,
             mapbox,
             empty,
+            bing,
 
             ownership,
             parcels,
@@ -25,14 +26,20 @@ IOS.l.cad.map = (function () {
 
         config = $.extend(config, params);
 
-        // zoomControl is false to enable zoomfs leaflet plugin
-        map = L.map(config.mapdiv, {fullscreenControl: true}).setView(config.coord, 10);
+        map = L.map(config.mapdiv, {}).setView(config.coord, 10);
+
+        L.control.fullscreen({
+            position: 'topleft',
+            title: gettext('Fullscreen')
+        }).addTo(map);
+
         bbox = '-0.39, 45.2, -0.30, 45.25';
 
         hash = new L.Hash(map);
 
         empty = new L.Path().addTo(map);
         mapbox = new L.TileLayer('http://a.tiles.mapbox.com/v3/nippo.map-x23ct41d/{z}/{x}/{y}.png');
+        bing = new L.BingLayer(config.bing_api_key, {});
 
         /** L.geoJson's, these calls load data from server */
         lieudits = IOS.l.edigeo.map.lieudits.get(bbox);
@@ -67,6 +74,7 @@ IOS.l.cad.map = (function () {
             new L.Control.Layers(
                 {
                     "Aucun": empty,
+                    "Bing": bing,
                     "Mapbox": mapbox
                 },
                 {
