@@ -132,7 +132,7 @@ class Parcel(models.Model):
 
     num_plan = models.IntegerField(null=True, blank=True)
     num_parc_prim = models.IntegerField(null=True, blank=True)
-    # character varying in postgresql database
+    # Character varying in postgresql database
     code_edigeo = models.CharField(max_length=255, blank=True)
     gid = models.IntegerField(null=True, blank=True)
     edigeo_area = models.DecimalField(
@@ -151,13 +151,16 @@ class Parcel(models.Model):
 
 class Owner(models.Model):
     name = models.CharField(max_length=50, blank=True)
-    # @todo See max_length in database
+    # @todo Set max_length in database?
     address = models.CharField(max_length=255, blank=True)
-    # @todo See max_length in database
+    # @todo Set max_length in database?
     phone = models.CharField(max_length=255, blank=True)
     theme = models.CharField(max_length=255, blank=True)
+    # @todo Add the method which calculates this field value
     edigeo_area = models.DecimalField(
         null=True, max_digits=18, decimal_places=2, blank=True)
+
+    parcels = models.ManyToManyField(Parcel, through="ParcelOwner")
 
     class Meta:
         db_table = u'cad_prj'
