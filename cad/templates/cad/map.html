@@ -5,7 +5,7 @@
 {% block title %}{% trans "Land management" %} - {% endblock %}
 
 {% block breadcrumbs %}
-<li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">
+<li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="" class="hidden-xs">
     <a href="/">{% trans "Home" %}</a>
 </li>
 <li class="active" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">
@@ -14,19 +14,21 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-lg-5">
-    <div id="map"></div>
-</div>
-<div class="col-lg-7">
-    <h2><a href="{% url 'cad_carto' %}{{ request.user.seed.profil }}">{% trans "Land mapping" %}</a></h2>
-    <h3>{% trans "Layers" %}</h3>
-    <ul>
-        <li id="lieudits">{% trans "Lieudits" %}</li>
-        <li id="parcels">{% trans "Plots" %}</li>
-        <li id="ownership">{% trans "Prospective" %}</li>
-    </ul>
-    <h3>{% trans "Informations" %}</h3>
-    <div id="infos"></div>
+<div class="row">
+    <div class="col-lg-5">
+        <div id="map"></div>
+    </div>
+    <div class="col-lg-7">
+        <h2><a href="{% url 'cad_carto' %}{{ request.user.seed.profil }}">{% trans "Land mapping" %}</a></h2>
+        <h3>{% trans "Layers" %}</h3>
+        <ul>
+            <li id="lieudits">{% trans "Lieudits" %}</li>
+            <li id="parcels">{% trans "Plots" %}</li>
+            <li id="ownership">{% trans "Prospective" %}</li>
+        </ul>
+        <h3>{% trans "Informations" %}</h3>
+        <div id="infos"></div>
+    </div>
 </div>
 {% endblock %}
 
