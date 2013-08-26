@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-08 20:10+0200\n"
+"POT-Creation-Date: 2013-08-26 21:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,26 +30,26 @@ msgstr "Accueil"
 msgid "Services"
 msgstr "Services"
 
-#: templates/cad/map.html:21
+#: templates/cad/map.html:22
 msgid "Land mapping"
 msgstr "Cartographie foncière"
 
-#: templates/cad/map.html:22
+#: templates/cad/map.html:23
 msgid "Layers"
 msgstr "Couches"
 
-#: templates/cad/map.html:24
+#: templates/cad/map.html:25
 msgid "Lieudits"
 msgstr "Lieudits"
 
-#: templates/cad/map.html:25
+#: templates/cad/map.html:26
 msgid "Plots"
 msgstr "Parcelles cadastrales"
 
-#: templates/cad/map.html:26
+#: templates/cad/map.html:27
 msgid "Prospective"
 msgstr "Prospective"
 
-#: templates/cad/map.html:28
+#: templates/cad/map.html:29
 msgid "Informations"
 msgstr "Informations"
